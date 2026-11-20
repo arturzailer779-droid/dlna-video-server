@@ -71,4 +71,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/arturzailer779-droid/dlna-video-server.git
-        commit: 67c19b01b96d44bc96469369ad2b2523e527fc57
+        commit: 0a1a76a1f8e18b8fbdecd986f3cc2cb413add782

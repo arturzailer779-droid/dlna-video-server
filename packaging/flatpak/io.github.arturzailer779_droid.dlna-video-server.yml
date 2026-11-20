@@ -36,6 +36,9 @@ modules:
       - type: archive
         url: https://downloads.sourceforge.net/project/minidlna/minidlna/1.3.3/minidlna-1.3.3.tar.gz
         sha256: 39026c6d4a139b9180192d1c37225aa3376fdf4f1a74d7debbdbb693d996afa4
+      - type: shell
+        commands:
+          - sed -i "s/s->codecpar->channels/s->codecpar->ch_layout.nb_channels/g" libav.h
   - name: dlna-server
     buildsystem: simple
     build-commands:
@@ -51,4 +54,4 @@ modules:
       - type: git
         url: https://github.com/arturzailer779-droid/dlna-video-server.git
         tag: v1.5
-        commit: 6fcafe0
+        commit: d410ea53a70b69ea8c4d2dd738b0769501d216c3

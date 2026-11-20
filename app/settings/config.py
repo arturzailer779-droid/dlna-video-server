@@ -39,9 +39,20 @@ def get_server_uuid():
     open(UUID_FILE, "w", encoding="utf-8").write(val)
     return val
 
+def _safe_isdir(path):
+    from concurrent.futures import ThreadPoolExecutor, TimeoutError
+    ex = ThreadPoolExecutor(max_workers=1)
+    fut = ex.submit(os.path.isdir, path)
+    try:
+        return fut.result(timeout=0.5)
+    except Exception:
+        return False
+    finally:
+        ex.shutdown(wait=False)
+
 def load_folders():
     if os.path.exists(FOLDERS_FILE):
-        return [x.strip() for x in open(FOLDERS_FILE, encoding="utf-8") if x.strip() and os.path.isdir(x.strip())]
+        return [x.strip() for x in open(FOLDERS_FILE, encoding="utf-8") if x.strip() and _safe_isdir(x.strip())]
     return []
 
 def save_folders(folders):

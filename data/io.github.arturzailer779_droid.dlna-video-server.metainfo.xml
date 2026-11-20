@@ -14,12 +14,12 @@
   <screenshots>
     <screenshot type="default">
       <caption>Main application window</caption>
-      <image>https://githubusercontent.com/main/screenshots/main-window.png</image>
+      <image>https://://githubusercontent.comarturzailer779-droid/dlna-video-server/main//main/screenshots/main-window.png</image>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://github.com</url>
-  <url type="bugtracker">https://github.com/issues</url>
-  <url type="vcs-browser">https://github.com</url>
+  <url type="homepage">https://github.com/arturzailer779-droid/dlna-video-server/issues</url>
+  <url type="bugtracker">https://github.com/arturzailer779-droid/dlna-video-server/issues/issues</url>
+  <url type="vcs-browser">https://github.com/arturzailer779-droid/dlna-video-server/issues</url>
   <developer id="io.github.arturzailer779_droid"><name>arturzailer779-droid</name></developer>
   <releases><release version="1.5" date="2026-11-20"/></releases>
   <content_rating type="oars-1.1"/>

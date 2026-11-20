@@ -216,8 +216,8 @@ class MainWindow(QMainWindow):
         self.b_ref.clicked.connect(self.ref_f)
         for btn in (self.b_add, self.b_del, self.b_ref):
             btn.setMinimumHeight(66)
-        btn.setIconSize(QSize(42, 42))
-        actions.addWidget(btn)
+            btn.setIconSize(QSize(42, 42))
+            actions.addWidget(btn)
         bl.addLayout(actions)
         return body
 
@@ -357,6 +357,15 @@ class MainWindow(QMainWindow):
             self.upd()
 
     def add_f(self):
+        if os.path.exists("/.flatpak-info"):
+            d = QFileDialog.getExistingDirectory(self, "Выберите папку")
+            if d and os.path.isdir(d):
+                fs = load_folders()
+                if d not in fs:
+                    fs.append(d)
+                    save_folders(fs)
+                self.on_chg()
+            return
         dlg = QFileDialog(self, "Выберите папку")
         dlg.setFileMode(QFileDialog.FileMode.Directory)
         dlg.setOption(QFileDialog.Option.ShowDirsOnly, True)

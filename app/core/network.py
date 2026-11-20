@@ -1,31 +1,28 @@
 import logging
 import os
-import shutil
-import subprocess  # nosec B404
+from PyQt6.QtNetwork import QAbstractSocket, QNetworkInterface
 
 log = logging.getLogger(__name__)
-IP_BIN = shutil.which("ip") or "/usr/sbin/ip"
 
 
 def get_net_info():
     try:
-        out = subprocess.check_output(
-            [IP_BIN, "-o", "-4", "addr", "show", "up"], text=True)  # nosec B603
-        cands = []
-        for line in out.splitlines():
-            parts = line.split()
-            if len(parts) >= 4:
-                iface, ip_addr = parts[1], parts[3].split("/")[0]
-                if not iface.startswith(("lo", "tun", "wg", "docker", "br-", "veth", "virbr")):
-                    cands.append((iface, ip_addr))
-        rt = subprocess.check_output(
-            [IP_BIN, "-4", "route", "show", "default"], text=True)  # nosec B603
-        for iface, ip_addr in cands:
-            if f"dev {iface}" in rt:
-                return ip_addr, iface
-        if cands:
-            return cands[0][1], cands[0][0]
-    except (OSError, subprocess.CalledProcessError) as exc:
+        for iface in QNetworkInterface.allInterfaces():
+            flags = iface.flags()
+            if not (flags & QNetworkInterface.InterfaceFlag.IsUp):
+                continue
+            if not (flags & QNetworkInterface.InterfaceFlag.IsRunning):
+                continue
+            if flags & QNetworkInterface.InterfaceFlag.IsLoopBack:
+                continue
+            name = iface.name()
+            if name.startswith(("lo", "tun", "wg", "docker", "br-", "veth", "virbr")):
+                continue
+            for entry in iface.addressEntries():
+                ip = entry.ip()
+                if ip.protocol() == QAbstractSocket.NetworkLayerProtocol.IPv4Protocol:
+                    return ip.toString(), name
+    except Exception as exc:
         log.debug("Net lookup error: %s", exc)
     return "127.0.0.1", "offline"
 

@@ -357,16 +357,7 @@ class MainWindow(QMainWindow):
             self.upd()
 
     def add_f(self):
-        if os.path.exists("/.flatpak-info"):
-            d = QFileDialog.getExistingDirectory(self, "Выберите папку")
-            if d and os.path.isdir(d):
-                fs = load_folders()
-                if d not in fs:
-                    fs.append(d)
-                    save_folders(fs)
-                self.on_chg()
-            return
-        dlg = QFileDialog(self, "Выберите папку")
+        dlg = QFileDialog(self, "Выберите папку", os.path.expanduser("~"))
         dlg.setFileMode(QFileDialog.FileMode.Directory)
         dlg.setOption(QFileDialog.Option.ShowDirsOnly, True)
         dlg.setOption(QFileDialog.Option.DontUseNativeDialog, True)

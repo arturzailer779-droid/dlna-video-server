@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-import sys, time
+import os, sys, time
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtNetwork import QLocalServer, QLocalSocket
+from app.settings.config import CONFIG_DIR
 from app.window import MainWindow
 
-SERVER_NAME = "dlna_server_single_instance_lock"
+SERVER_NAME = os.path.join(CONFIG_DIR, "instance.sock")
 
 def main():
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
 
-    # Проверяем, не запущена ли уже программа
     sock = QLocalSocket()
     sock.connectToServer(SERVER_NAME)
-    if sock.waitForConnected(200):
+    if sock.waitForConnected(300):
         sock.write(b"SHOW")
-        sock.waitForBytesWritten(200)
+        sock.waitForBytesWritten(300)
         sock.disconnectFromServer()
         sys.exit(0)
 
@@ -31,7 +31,11 @@ def main():
     def on_new_conn():
         conn = srv.nextPendingConnection()
         if conn:
-            conn.readyRead.connect(lambda: (win.showNormal(), win.activateWindow(), win.raise_()))
+            def wake():
+                win.showNormal()
+                win.raise_()
+                win.activateWindow()
+            conn.readyRead.connect(wake)
 
     srv.newConnection.connect(on_new_conn)
     sys.exit(app.exec())

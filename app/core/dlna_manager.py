@@ -66,15 +66,13 @@ class DlnaManager:
                 os.kill(pid, signal.SIGTERM)
             except ProcessLookupError:
                 pass
-        subprocess.run([PKILL_BIN, "-TERM", "-f", CONFIG_FILE],
-                       stderr=subprocess.DEVNULL, check=False)
+        pass
         for _ in range(3):
             if not self.is_running():
                 break
             time.sleep(0.1)
         if self.is_running():
-            subprocess.run([PKILL_BIN, "-KILL", "-f", CONFIG_FILE],
-                           stderr=subprocess.DEVNULL, check=False)
+            os.kill(pid, signal.SIGKILL) if pid else None
             time.sleep(0.2)
         if os.path.exists(PID_FILE):
             try:

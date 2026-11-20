@@ -2,13 +2,19 @@ import sys
 from PyQt6.QtCore import QBuffer, QIODevice, Qt
 from PyQt6.QtGui import QColor, QImage, QPainter
 
-src = QImage(sys.argv).convertToFormat(QImage.Format.Format_ARGB32)
+src = QImage(sys.argv[1]).convertToFormat(QImage.Format.Format_ARGB32)
+assert not src.isNull(), "Failed to load source image"
 
 def encode_png(size):
     im = src.scaled(size, size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+    canvas = QImage(size, size, QImage.Format.Format_ARGB32)
+    canvas.fill(QColor(0, 0, 0, 0))
+    p = QPainter(canvas)
+    p.drawImage((size - im.width()) // 2, (size - im.height()) // 2, im)
+    p.end()
     buf = QBuffer()
     buf.open(QIODevice.OpenModeFlag.WriteOnly)
-    im.save(buf, "PNG")
+    canvas.save(buf, "PNG")
     return bytes(buf.data())
 
 def encode_jpg(size):
@@ -20,7 +26,7 @@ def encode_jpg(size):
     p.end()
     buf = QBuffer()
     buf.open(QIODevice.OpenModeFlag.WriteOnly)
-    bg.save(buf, "JPG", 92)
+    bg.save(buf, "JPG", 90)
     return bytes(buf.data())
 
 items = [
@@ -31,5 +37,6 @@ items = [
 ]
 
 for name, data in items:
+    assert len(data) > 100, f"Empty {name}"
     arr = ", ".join(f"0x{b:02x}" for b in data)
     print(f"unsigned char {name}[] = {{{arr}}};")

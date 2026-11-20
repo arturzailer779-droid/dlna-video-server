@@ -6,7 +6,7 @@ import uuid
 IS_FLATPAK = os.path.exists("/.flatpak-info")
 APP_ID = "io.github.arturzailer779_droid.dlna-video-server"
 
-CONFIG_DIR = os.path.expanduser("~/.dlna_server_1_1")
+CONFIG_DIR = os.path.join(os.environ.get("XDG_CONFIG_HOME", os.path.expanduser("~/.config")), "dlna_server") if IS_FLATPAK else os.path.expanduser("~/.dlna_server_1_1")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "minidlna.conf")
 PID_FILE = os.path.join(CONFIG_DIR, "minidlna.pid")
 LOG_FILE = os.path.join(CONFIG_DIR, "minidlna.log")

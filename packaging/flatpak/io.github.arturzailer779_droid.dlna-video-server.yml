@@ -16,6 +16,9 @@ finish-args:
   - --filesystem=xdg-videos:ro
   - --filesystem=xdg-music:ro
   - --filesystem=xdg-pictures:ro
+  - --filesystem=xdg-download:ro
+  - --filesystem=/media:ro
+  - --filesystem=/run/media:ro
   - --talk-name=org.freedesktop.ScreenSaver
   - --talk-name=org.kde.StatusNotifierWatcher
 build-options:
@@ -39,6 +42,10 @@ modules:
       - type: shell
         commands:
           - sed -i "s/s->codecpar->channels/s->codecpar->ch_layout.nb_channels/g" libav.h
+      - type: file
+        url: https://raw.githubusercontent.com/arturzailer779-droid/dlna-video-server/2b92f95f4781102612cbda24f09d8be6bf593883/packaging/flatpak/icons.c
+        sha256: fba1c688a902b5c749a8fbd3ff854ad596dac37438d6a2b9b959e3071caefddb
+        dest-filename: icons.c
   - name: dlna-server
     buildsystem: simple
     build-commands:
@@ -54,4 +61,4 @@ modules:
       - type: git
         url: https://github.com/arturzailer779-droid/dlna-video-server.git
         tag: v1.5
-        commit: d410ea53a70b69ea8c4d2dd738b0769501d216c3
+        commit: 2b92f95f4781102612cbda24f09d8be6bf593883

@@ -51,7 +51,7 @@ modules:
       - type: patch
         path: 15-thumbnails.patch
       - type: file
-        url: https://githubusercontent.com4aff1efb72bcf9eb2f05db0370b31f1fd209b17b/packaging/flatpak/icons.c
+        url: https://://githubusercontent.comarturzailer779-droid/dlna-video-server/67c19b01b96d44bc96469369ad2b2523e527fc57/packaging/flatpak/icons.c
         sha256: dd7723ed1e6761c148e897774cdacbece85961b0113f4b27b9418f65f1456b1a
       - type: shell
         commands:
@@ -70,5 +70,5 @@ modules:
       - install -Dm644 data/icons/512x512/io.github.arturzailer779_droid.dlna-video-server.png /app/share/icons/hicolor/512x512/apps/io.github.arturzailer779_droid.dlna-video-server.png
     sources:
       - type: git
-        url: https://github.com.git
-        commit: 4aff1efb72bcf9eb2f05db0370b31f1fd209b17b
+        url: https://github.com/arturzailer779-droid/dlna-video-server.git
+        commit: 67c19b01b96d44bc96469369ad2b2523e527fc57

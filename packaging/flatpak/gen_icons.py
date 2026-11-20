@@ -2,29 +2,32 @@ import sys
 from PyQt6.QtCore import QBuffer, QIODevice, Qt
 from PyQt6.QtGui import QColor, QImage, QPainter
 
-src = QImage(sys.argv[1])
+src = QImage(sys.argv).convertToFormat(QImage.Format.Format_ARGB32)
 
-def encode_opaque(size, fmt):
+def encode_png(size):
     im = src.scaled(size, size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-    bg = QImage(size, size, QImage.Format.Format_RGB32)
-    bg.fill(QColor(30, 41, 59))
+    buf = QBuffer()
+    buf.open(QIODevice.OpenModeFlag.WriteOnly)
+    im.save(buf, "PNG")
+    return bytes(buf.data())
+
+def encode_jpg(size):
+    im = src.scaled(size, size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+    bg = QImage(size, size, QImage.Format.Format_RGB888)
+    bg.fill(QColor(24, 24, 27))
     p = QPainter(bg)
     p.drawImage((size - im.width()) // 2, (size - im.height()) // 2, im)
     p.end()
     buf = QBuffer()
     buf.open(QIODevice.OpenModeFlag.WriteOnly)
-    bg.save(buf, fmt, 95)
+    bg.save(buf, "JPG", 92)
     return bytes(buf.data())
 
-for sz in (512, 64):
-    p = f"data/icons/{sz}x{sz}/io.github.arturzailer779_droid.dlna-video-server.png"
-    src.scaled(sz, sz, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation).save(p, "PNG")
-
 items = [
-    ("png_sm", encode_opaque(48, "PNG")),
-    ("png_lrg", encode_opaque(120, "PNG")),
-    ("jpeg_sm", encode_opaque(48, "JPG")),
-    ("jpeg_lrg", encode_opaque(120, "JPG")),
+    ("png_sm", encode_png(48)),
+    ("png_lrg", encode_png(120)),
+    ("jpeg_sm", encode_jpg(48)),
+    ("jpeg_lrg", encode_jpg(120)),
 ]
 
 for name, data in items:

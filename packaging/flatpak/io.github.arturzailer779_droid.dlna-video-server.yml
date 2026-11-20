@@ -51,7 +51,7 @@ modules:
       - type: patch
         path: 15-thumbnails.patch
       - type: file
-        url: https://://githubusercontent.comarturzailer779-droid/dlna-video-server/67c19b01b96d44bc96469369ad2b2523e527fc57/packaging/flatpak/icons.c
+        url: https://raw://arturzailer779-droid/dlna-video-server/67c19b01b96d44bc96469369ad2b2523e527fc57/packaging/flatpak/icons.c
         sha256: dd7723ed1e6761c148e897774cdacbece85961b0113f4b27b9418f65f1456b1a
       - type: shell
         commands:

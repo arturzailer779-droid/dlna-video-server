@@ -13,7 +13,7 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   - --device=dri
-  - --filesystem=xdg-videos:ro
+  - --filesystem=home:ro
   - --filesystem=xdg-music:ro
   - --filesystem=xdg-pictures:ro
   - --filesystem=xdg-download:ro
@@ -43,7 +43,7 @@ modules:
       - type: git
         url: https://github.com/dirkvdb/ffmpegthumbnailer.git
         tag: v2.4.2
-        commit: f54fc078d4b90fd5a2299e8bfd9a18423002be94
+        commit: cab6a696125b3f8ef0695340f99e7ffd934b81d0
   - name: minidlna
     buildsystem: autotools
     config-opts:
@@ -75,4 +75,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/arturzailer779-droid/dlna-video-server.git
-        commit: d9b13b4f86516ef321f068f25e54b749432b8105
+        commit: cab6a696125b3f8ef0695340f99e7ffd934b81d0

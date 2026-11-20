@@ -99,12 +99,12 @@ class DlnaManager:
         self.stop()
         _, iface = get_net_info()
         il = f"network_interface={iface}\n" if iface not in ("", "auto", "offline") else ""
-        md = "\n".join(f"media_dir={f}" for f in folders)
+        md = "\n".join(f"media_dir=V,{f}" for f in folders)
         host = socket.gethostname()
         sn = f"DLNA SERVER ({host})" if host else "DLNA SERVER"
         th = "yes" if get_thumbs() else "no"
         cfg = (f"port={DLNA_PORT}\n{il}{md}\nfriendly_name={sn}\nuuid={get_server_uuid()}\n"
-               f"root_container=B\ndb_dir={DB_DIR}\nlog_dir={CONFIG_DIR}\ninotify=yes\n"
+               f"root_container=B\nicon={LOGO_ON}\ndb_dir={DB_DIR}\nlog_dir={CONFIG_DIR}\ninotify=yes\n"
                f"enable_subtitles=yes\nstrict_dlna=yes\nenable_thumbnail={th}\nthumbnail_width=160\n"
                f"thumbnail_quality=10\nforce_sort_criteria=+upnp:class,+dc:title\nnotify_interval=60\n")
         open(CONFIG_FILE, "w", encoding="utf-8").write(cfg)

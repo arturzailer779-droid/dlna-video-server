@@ -13,14 +13,10 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   - --device=dri
-  - --filesystem=home:ro
-  - --filesystem=xdg-music:ro
-  - --filesystem=xdg-pictures:ro
-  - --filesystem=xdg-download:ro
-  - --filesystem=/media:ro
-  - --filesystem=/run/media:ro
+  - --filesystem=host:ro
   - --talk-name=org.freedesktop.ScreenSaver
   - --talk-name=org.kde.StatusNotifierWatcher
+  - --system-talk-name=org.freedesktop.UDisks2
 build-options:
   env:
     - BASEAPP_REMOVE_WEBENGINE=1
@@ -43,7 +39,7 @@ modules:
       - type: git
         url: https://github.com/dirkvdb/ffmpegthumbnailer.git
         tag: v2.4.2
-        commit: cab6a696125b3f8ef0695340f99e7ffd934b81d0
+        commit: f54fc078d4b90fd5a2299e8bfd9a18423002be94
   - name: minidlna
     buildsystem: autotools
     config-opts:
@@ -55,8 +51,7 @@ modules:
       - type: patch
         path: 15-thumbnails.patch
       - type: file
-        url: https://raw.githubusercontent.com/arturzailer779-droid/dlna-video-server/ada52409f2be430cdbe2419a1a59727c68191403/packaging/flatpak/icons.c
-        sha256: 22541edccf15109366cefb9cc76bc7fec4761f51c253f23091159d86238310d7
+        path: icons.c
       - type: shell
         commands:
           - sed -i "s/s->codecpar->channels/s->codecpar->ch_layout.nb_channels/g" libav.h
@@ -73,6 +68,5 @@ modules:
       - install -Dm644 data/icons/64x64/io.github.arturzailer779_droid.dlna-video-server.png /app/share/icons/hicolor/64x64/apps/io.github.arturzailer779_droid.dlna-video-server.png
       - install -Dm644 data/icons/512x512/io.github.arturzailer779_droid.dlna-video-server.png /app/share/icons/hicolor/512x512/apps/io.github.arturzailer779_droid.dlna-video-server.png
     sources:
-      - type: git
-        url: https://github.com/arturzailer779-droid/dlna-video-server.git
-        commit: cab6a696125b3f8ef0695340f99e7ffd934b81d0
+      - type: dir
+        path: ../..

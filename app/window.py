@@ -357,10 +357,53 @@ class MainWindow(QMainWindow):
             self.upd()
 
     def add_f(self):
+        from PyQt6.QtCore import QUrl
         dlg = QFileDialog(self, "Выберите папку", os.path.expanduser("~"))
         dlg.setFileMode(QFileDialog.FileMode.Directory)
         dlg.setOption(QFileDialog.Option.ShowDirsOnly, True)
         dlg.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+        home = os.path.expanduser("~")
+        urls = [QUrl.fromLocalFile(home)]
+        seen = {home, "/"}
+
+        def add_mount(p):
+            if p not in seen and os.path.isdir(p):
+                seen.add(p)
+                urls.append(QUrl.fromLocalFile(p))
+
+        # Читаем все реальные диски и разделы из /proc/mounts (работает на любом ПК)
+        skip_prefixes = ("/proc", "/sys", "/dev", "/run", "/usr", "/app", "/etc", "/var", "/tmp", "/boot", "/snap", "/lib", "/opt", "/srv", "/home")
+        try:
+            with open("/proc/mounts", encoding="utf-8", errors="ignore") as fh:
+                for line in fh:
+                    parts = line.split()
+                    if len(parts) < 3:
+                        continue
+                    dev, mp, fstype = parts[0], parts[1].replace(" ", " "), parts[2]
+                    if mp in ("/media", "/mnt") or any(mp == sp or mp.startswith(sp + "/") for sp in skip_prefixes):
+                        continue
+                    if dev.startswith("/dev/") or fstype in ("ntfs", "ntfs3", "fuseblk", "exfat", "vfat", "ext4", "ext3", "btrfs", "xfs", "cifs", "nfs", "nfs4", "fuse.sshfs"):
+                        add_mount(mp)
+        except OSError:
+            pass
+
+        # Дополнительно проверяем стандартные каталоги монтирования
+        for base in ("/media", "/run/media", "/mnt"):
+            if os.path.isdir(base):
+                try:
+                    for entry in sorted(os.listdir(base)):
+                        p = os.path.join(base, entry)
+                        if os.path.isdir(p):
+                            # Если это /media/<user>, добавляем вложенные диски, иначе сам диск /mnt/<disk>
+                            if base in ("/media", "/run/media") and entry == os.path.basename(home):
+                                for sub in sorted(os.listdir(p)):
+                                    add_mount(os.path.join(p, sub))
+                            else:
+                                add_mount(p)
+                except OSError:
+                    pass
+
+        dlg.setSidebarUrls(urls)
         if dlg.exec():
             fs = load_folders()
             for f in dlg.selectedFiles():

@@ -2,7 +2,7 @@
 Name=DLNA SERVER
 Comment=Local DLNA/UPnP Media Server for Smart TV, Phones & Tablets
 Exec=dlna-server
-Icon=io.github.arturzailer779_droid.dlna_server
+Icon=io.github.arturzailer779_droid.dlna-video-server
 StartupWMClass=dlna-server
 Terminal=false
 Type=Application

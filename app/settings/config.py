@@ -4,7 +4,7 @@ import subprocess  # nosec B404
 import uuid
 
 IS_FLATPAK = os.path.exists("/.flatpak-info")
-APP_ID = "io.github.arturzailer779_droid.dlna_server"
+APP_ID = "io.github.arturzailer779_droid.dlna-video-server"
 
 CONFIG_DIR = os.path.expanduser("~/.dlna_server_1_1")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "minidlna.conf")

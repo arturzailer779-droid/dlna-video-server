@@ -51,7 +51,8 @@ modules:
       - type: patch
         path: 15-thumbnails.patch
       - type: file
-        path: icons.c
+        url: https://githubusercontent.com4aff1efb72bcf9eb2f05db0370b31f1fd209b17b/packaging/flatpak/icons.c
+        sha256: dd7723ed1e6761c148e897774cdacbece85961b0113f4b27b9418f65f1456b1a
       - type: shell
         commands:
           - sed -i "s/s->codecpar->channels/s->codecpar->ch_layout.nb_channels/g" libav.h
@@ -68,5 +69,6 @@ modules:
       - install -Dm644 data/icons/64x64/io.github.arturzailer779_droid.dlna-video-server.png /app/share/icons/hicolor/64x64/apps/io.github.arturzailer779_droid.dlna-video-server.png
       - install -Dm644 data/icons/512x512/io.github.arturzailer779_droid.dlna-video-server.png /app/share/icons/hicolor/512x512/apps/io.github.arturzailer779_droid.dlna-video-server.png
     sources:
-      - type: dir
-        path: ../..
+      - type: git
+        url: https://github.com.git
+        commit: 4aff1efb72bcf9eb2f05db0370b31f1fd209b17b

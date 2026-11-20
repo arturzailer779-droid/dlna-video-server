@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 DLNA_PORT = 8208
 PGREP_BIN = shutil.which("pgrep") or "/usr/bin/pgrep"
 PKILL_BIN = shutil.which("pkill") or "/usr/bin/pkill"
-MINIDLNA_BIN = shutil.which("minidlnad") or "/usr/sbin/minidlnad"
+MINIDLNA_BIN = shutil.which("minidlnad") or ("/app/sbin/minidlnad" if os.path.exists("/app/sbin/minidlnad") else "/usr/sbin/minidlnad")
 INHIBIT_BIN = shutil.which("systemd-inhibit") or "/usr/bin/systemd-inhibit"
 
 class DlnaManager:

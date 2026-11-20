@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.arturzailer779_droid.dlna_server</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>DLNA SERVER</name>
+  <summary>Local DLNA/UPnP media server for Smart TV and mobile devices</summary>
+  <summary xml:lang="ru">Локальный DLNA/UPnP медиасервер для Smart TV и мобильных устройств</summary>
+  <description>
+    <p>Lightweight local DLNA/UPnP media sharing server built on PyQt6 and MiniDLNA.</p>
+    <p xml:lang="ru">Лёгкий локальный DLNA/UPnP медиасервер на базе PyQt6 и MiniDLNA.</p>
+  </description>
+  <launchable type="desktop-id">io.github.arturzailer779_droid.dlna_server.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main application window</caption>
+      <image>https://raw.githubusercontent.com/arturzailer779-droid/dlna-video-server/main/screenshots/main-window.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/arturzailer779-droid/dlna-video-server</url>
+  <developer id="io.github.arturzailer779_droid"><name>arturzailer779-droid</name></developer>
+  <releases><release version="1.5" date="2026-11-20"/></releases>
+  <content_rating type="oars-1.1"/>
+</component>

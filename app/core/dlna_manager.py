@@ -106,7 +106,7 @@ class DlnaManager:
         sn = f"DLNA SERVER ({host})" if host else "DLNA SERVER"
         th = "yes" if get_thumbs() else "no"
         cfg = (f"port={DLNA_PORT}\n{il}{md}\nfriendly_name={sn}\nuuid={get_server_uuid()}\n"
-               f"root_container=B\nicon={os.path.join(os.path.dirname(LOGO_ON), "dlna_icon.png")}\ndb_dir={DB_DIR}\nlog_dir={CONFIG_DIR}\ninotify=yes\n"
+               f"root_container=B\ndb_dir={DB_DIR}\nlog_dir={CONFIG_DIR}\ninotify=yes\n"
                f"enable_subtitles=yes\nstrict_dlna=yes\nenable_thumbnail={th}\nthumbnail_width=160\n"
                f"thumbnail_quality=10\nforce_sort_criteria=+upnp:class,+dc:title\nnotify_interval=60\n")
         open(CONFIG_FILE, "w", encoding="utf-8").write(cfg)
